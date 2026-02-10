@@ -1,0 +1,27 @@
+{
+  "name": "ton-test",
+  "homepage": "https://AH1N.github.io/tonTest",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "deploy": "yarn build && gh-pages -d dist"
+  },
+  "dependencies": {
+    "@orbs-network/ton-access": "^2.3.3",
+    "@ton/core": "^0.63.0",
+    "@ton/ton": "^16.2.2",
+    "@tonconnect/ui-react": "^2.4.1",
+    "@twa-dev/sdk": "^8.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^4.2.1",
+    "gh-pages": "^6.1.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  }
+}
