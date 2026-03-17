@@ -5,7 +5,7 @@ import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
 import { Address, OpenedContract, toNano } from "@ton/core";
 
-const MINTER_ADDRESS = Address.parse("EQТВОЙ_МИНТЕР_АДРЕС"); // ← ЗАМЕНИ!
+const MINTER_ADDRESS = Address.parse("EQBLyTRN5m-rfqG7vpraeLP3WpebYKmsvvaL78tOfcnBK3u3"); //Нужный
 
 export function useMinterContract() {
     const client = useTonClient();           // ✅ RPC клиент
@@ -44,10 +44,10 @@ export function useMinterContract() {
     }) => {
         if (!minter || !sender) return;
         return minter.sendClaimTokens(sender, {
-            value: toNano("0.35"),
             toAddress: opts.toAddress,
             jettonAmount: opts.jettonAmount,
             forwardTonAmount: opts.forwardTonAmount,
+            value: toNano("0.35"),  // ✅ value в opts
             queryId: 0n,
         });
     };
