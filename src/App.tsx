@@ -63,7 +63,7 @@ export default function App() {
                         CLICK!
                     </button>
 
-                    {counter >= 1000 && (
+                    {counter >= 10 && (
                         <button
                             style={{
                                 width: '100%',
