@@ -5,23 +5,29 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist",
+    "gh-pages": "gh-pages -d dist",
+    "predeploy": "npm run build"
+
   },
   "dependencies": {
     "@orbs-network/ton-access": "^2.3.3",
     "@ton/core": "^0.63.0",
     "@ton/ton": "^16.2.2",
-    "@tonconnect/ui-react": "^2.4.1",
+    "@tonconnect/ui-react": "^2.4.2",
     "@twa-dev/sdk": "^8.0.0",
+    "buffer": "^6.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/node": "^25.5.0",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.2.1",
     "gh-pages": "^6.1.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0",
+    "vite-plugin-node-polyfills": "^0.25.0"
   }
 }

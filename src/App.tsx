@@ -2,100 +2,91 @@ import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react';
 import { useState } from 'react';
 import { useMinterContract } from './hooks/useMinter';
 import { Address, toNano } from '@ton/core';
+import './App.css';
 
 export default function App() {
     const [counter, setCounter] = useState(0);
     const myAddress = useTonAddress();
     const connected = !!myAddress;
-    const { sendClaimTokens, totalSupply } = useMinterContract();
+    const { sendClaimTokens, totalSupply, connected: contractConnected } = useMinterContract();
 
     const handleClaim = async () => {
-        if (!myAddress || counter < 1000) return;
+        if (!myAddress || counter < 1000) {
+            alert(`Нужно ${1000 - counter} кликов еще!`);
+            return;
+        }
+
         try {
+            console.log('Claiming tokens...');
             await sendClaimTokens({
                 toAddress: Address.parse(myAddress),
-                jettonAmount: toNano("1"),
-                forwardTonAmount: toNano("0.05")
+                jettonAmount: toNano("1"), // 1 токен
+                forwardTonAmount: toNano("0.05") // комиссия за перевод
             });
-            setCounter(0);
+
+            // Если дошли сюда - транзакция отправлена
+            alert('✅ Транзакция отправлена! Ждите токены...');
+            setCounter(0); // Сбрасываем счетчик
         } catch (e) {
             console.error('Mint error:', e);
+            alert('❌ Ошибка: ' + (e instanceof Error ? e.message : 'Неизвестная ошибка'));
         }
     };
 
     return (
-        <div style={{
-            padding: '40px',
-            textAlign: 'center',
-            fontFamily: 'sans-serif',
-            maxWidth: '400px',
-            margin: '0 auto'
-        }}>
-            <h1 style={{ color: '#007AFF' }}>🪨 MTT Clicker</h1>
+        <div className="app">
+            <h1 className="title">🪨 MTT Clicker</h1>
 
-            <TonConnectButton />
-
-            <div style={{
-                fontSize: '4em',
-                fontWeight: 'bold',
-                margin: '30px 0',
-                color: '#333'
-            }}>
-                {counter}
+            <div className="ton-connect-button">
+                <TonConnectButton />
             </div>
 
             {connected ? (
                 <>
+                    <div className="counter">
+                        {counter}
+                    </div>
+
                     <button
-                        style={{
-                            width: '100%',
-                            height: '80px',
-                            fontSize: '1.5em',
-                            background: '#007AFF',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '15px',
-                            cursor: 'pointer',
-                            marginBottom: '10px'
-                        }}
+                        className="click-btn"
                         onClick={() => setCounter(c => c + 1)}
                     >
                         CLICK!
                     </button>
 
-                    {counter >= 10 && (
+                    {counter >= 1000 && (
                         <button
-                            style={{
-                                width: '100%',
-                                height: '60px',
-                                fontSize: '1.3em',
-                                background: '#34C759',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '15px',
-                                cursor: 'pointer',
-                                marginTop: '10px'
-                            }}
+                            className="claim-btn"
                             onClick={handleClaim}
                         >
-                            Claim 1 MTT!
+                            Claim 1 MTT! 🎉
                         </button>
                     )}
                 </>
             ) : (
-                <div style={{ color: '#666', fontSize: '1.2em' }}>
+                <div className="connect-message">
                     Connect Tonkeeper to play!
                 </div>
             )}
 
-            <p style={{ marginTop: '20px', color: '#666' }}>
-                {counter >= 1000 ? '✅ Готов к CLAIM!' : '1000 кликов = 1 MTT'}
-            </p>
+            <div className="message">
+                {counter >= 1000 ? (
+                    '🎯 Можно заклеймить!'
+                ) : (
+                    `${1000 - counter} кликов до 1 MTT`
+                )}
+            </div>
 
             {totalSupply !== undefined && (
-                <p style={{ color: '#007AFF', fontWeight: 'bold' }}>
-                    Total Supply: {totalSupply.toString()}
-                </p>
+                <div className="total-supply">
+                    Total Minted: {totalSupply.toString()} MTT
+                </div>
+            )}
+
+            {!contractConnected && connected && (
+                <div className="warning" style={{color: 'orange'}}>
+                    ⚠️ Контракт не подключен
+                </div>
             )}
         </div>
     );
