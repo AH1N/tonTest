@@ -11,8 +11,8 @@ export default function App() {
     const { sendClaimTokens, totalSupply, connected: contractConnected } = useMinterContract();
 
     const handleClaim = async () => {
-        if (!myAddress || counter < 1000) {
-            alert(`Нужно ${1000 - counter} кликов еще!`);
+        if (!myAddress || counter < 10) {
+            alert(`Нужно ${10 - counter} кликов еще!`);
             return;
         }
 
