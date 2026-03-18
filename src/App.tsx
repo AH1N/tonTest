@@ -20,13 +20,12 @@ export default function App() {
             console.log('Claiming tokens...');
             await sendClaimTokens({
                 toAddress: Address.parse(myAddress),
-                jettonAmount: toNano("1"), // 1 токен
-                forwardTonAmount: toNano("0.05") // комиссия за перевод
+                jettonAmount: toNano("1"),
+                forwardTonAmount: toNano("0.05")
             });
 
-            // Если дошли сюда - транзакция отправлена
             alert('✅ Транзакция отправлена! Ждите токены...');
-            setCounter(0); // Сбрасываем счетчик
+            setCounter(0);
         } catch (e) {
             console.error('Mint error:', e);
             alert('❌ Ошибка: ' + (e instanceof Error ? e.message : 'Неизвестная ошибка'));
@@ -54,7 +53,8 @@ export default function App() {
                         CLICK!
                     </button>
 
-                    {counter >= 1000 && (
+                    {/* ← ИЗМЕНЕНО: было 1000, стало 10 */}
+                    {counter >= 10 && (
                         <button
                             className="claim-btn"
                             onClick={handleClaim}
@@ -70,10 +70,11 @@ export default function App() {
             )}
 
             <div className="message">
-                {counter >= 1000 ? (
+                {/* ← ИЗМЕНЕНО: было 1000, стало 10 */}
+                {counter >= 10 ? (
                     '🎯 Можно заклеймить!'
                 ) : (
-                    `${1000 - counter} кликов до 1 MTT`
+                    `${10 - counter} кликов до 1 MTT`
                 )}
             </div>
 
